@@ -5,12 +5,16 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
+import ktx.app.KtxInputAdapter
+import ktx.log.info
 
-class KtxDemoApp : ApplicationAdapter() {
+class KtxDemoApp : ApplicationAdapter(), KtxInputAdapter {
     private lateinit var batch: SpriteBatch
     private lateinit var img: Texture
 
     override fun create() {
+        Gdx.input.inputProcessor = this
+
         batch = SpriteBatch()
         img = Texture("badlogic.jpg")
     }
@@ -26,5 +30,11 @@ class KtxDemoApp : ApplicationAdapter() {
     override fun dispose() {
         batch.dispose()
         img.dispose()
+    }
+
+    override fun touchDown(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
+        info { "Touched=> x: $screenX / y: $screenY" }
+
+        return false
     }
 }
